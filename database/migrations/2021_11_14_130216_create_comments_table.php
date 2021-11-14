@@ -15,11 +15,14 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->longText("message") ;
+            $table->longText("message");
+            //getting the post id
             $table->foreignId('post_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            //getting the post id for current logged in user who comments a post
+            // delete a comment that means delete everything on cascade
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')

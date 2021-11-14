@@ -17,7 +17,9 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            // adding a photo for a user
             $table->string('photo');
+            // the role based in simple user or and admin and by default it will be a user
             $table->enum('role',['admin','user'])->default("user");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
 
-class CommentSeeder extends Seeder
+class PostSeeder extends Seeder
 {
     /**
-     * Run the comment seeds.
+     * Run the post seeds.
      *
      * @return void
      */
     public function run()
     {
-        Comment::factory()
-        ->count(500)
+        Post::factory()
+        ->count(100)
         ->create();
     }
 }

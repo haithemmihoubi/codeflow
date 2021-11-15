@@ -7,14 +7,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CategoryFactory extends Factory
 {
     /**
-     * Define the model's default state.
+     * Generating random categories.
      *
      * @return array
      */
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'description' => $this->faker->paragraph(),
+            'created_at' => now(),
+            'updated_at' => now()
         ];
     }
 }

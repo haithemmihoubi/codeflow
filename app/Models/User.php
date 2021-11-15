@@ -12,6 +12,25 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /*
+    *  Match  between the user table and the comment table
+    *  Here the actual user  has many comments
+*/
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+   /*
+    *  Match  between the user table and the comment table
+    *  Here the actual user  has many comments
+*/
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+
+
     /**
      * The attributes that are mass assignable.
      *

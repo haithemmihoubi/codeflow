@@ -31,8 +31,7 @@ class Post extends Model
 
 
 
-
-    /* Match between the rating and the post
+    /* Match between the POSt and the Category
     *
     * */
     public function category()

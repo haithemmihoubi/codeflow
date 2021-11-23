@@ -28,7 +28,7 @@ class PostController extends Controller
             'title' => 'required',
             "body" => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            "url"=>'required|url',
+            "url"=>'nullable|url',
             "pdf"=>"nullable|mimes:svg,doc,docx,odt,pdf,tex,txt,wpd,tiff,tif,csv,psd,key,odp,pps,ppt,pptx,ods,xls,xlsm,xlsx",
             "coupon"=>"nullable",
             "category_id"=>"required"

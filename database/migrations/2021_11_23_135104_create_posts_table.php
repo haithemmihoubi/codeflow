@@ -17,9 +17,9 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string("title");
             $table->longText("body");
-            $table->longText("image");
-            $table->longText("url");
-            $table->string("pdf");
+            $table->longText("image")->nullable();
+            $table->longText("url")->nullable();
+            $table->string("pdf")->nullable();
             $table->string("coupon");
             $table->boolean("validated")->default(0);
             $table->foreignId("category_id")->constrained()->cascadeOnUpdate()->cascadeOnDelete();

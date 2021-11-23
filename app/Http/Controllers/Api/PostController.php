@@ -24,31 +24,48 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // La validation de données
         $this->validate($request, [
             'title' => 'required',
             "body" => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            "url"=>"nullable",
-            "pdf"=>"mimes:jpeg,png,jpg,svg,doc,docx,odt,pdf,tex,txt,wpd,tiff,tif,csv,psd,key,odp,pps,ppt,pptx,ods,xls,xlsm,xlsx",
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            "url"=>'required|url',
+            "pdf"=>"nullable|mimes:svg,doc,docx,odt,pdf,tex,txt,wpd,tiff,tif,csv,psd,key,odp,pps,ppt,pptx,ods,xls,xlsm,xlsx",
             "coupon"=>"nullable",
             "category_id"=>"required"
         ]);
-
-
+        //Storing Image
+        if($request->hasFile('image'))
+        {
+            $image=$request->file("image") ;
+            $image_new_name =rand().".".$image->getClientOriginalExtension();
+            $image->move(public_path('uploads/images/'),$image_new_name);
+            response()->json($image_new_name) ;
+            $image_full_name = public_path('uploads/images/').$image_new_name;
+        }else {
+            return  response()->json("Image cannot be null") ;
+        }
+        //Storing PDF
+        if($request->hasFile('pdf'))
+        {
+            $pdf=$request->file("pdf") ;
+            $pdf_new_name = rand().".".$pdf->getClientOriginalExtension();
+            $pdf->move(public_path('uploads/pdfs/'),$pdf_new_name);
+            $pdf_full_name= public_path('uploads/pdfs/').$pdf_new_name;
+            response()->json($pdf_full_name) ;
+        }else {
+            return  response()->json("PDF cannot be  null") ;
+        }
         $post = Post::create([
             'title' =>  $request->title,
             "body" => $request->body,
-            'image' =>  $request->image,
+            'image' => $image_full_name,
             "url"=> $request->url,
-            "pdf"=> $request->pdf,
+            "pdf"=> $pdf_full_name,
             "coupon"=> $request->coupon,
             "category_id"=> $request->category_id
         ]);
-
-        // On retourne les informations du nouvel utilisateur en JSON
-        return response()->json($post, 201);
-
+            // On retourne les informations du nouvel utilisateur en JSON
+            return response()->json($post, 201);
     }
 
 

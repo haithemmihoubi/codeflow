@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Post;
-use http\Client\Curl\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,6 +14,41 @@ class PostController extends Controller
     {
         return  response()->json(Post::all());
     }
+
+
+    public function search($title)
+    {
+        $result = Post::where('title', 'like', '%' . $title . '%')->orWhere("body" ,'like', '%' . $title . '%')->latest()->get();
+        if (count($result)) {
+            return $result;
+        } else {
+            return ['result' => 'no records found'];
+        }
+    }
+ public function filterPostsByCategory($categoryName)
+    {
+        $posts = Category::where('name', $categoryName)->firstOrFail()
+            ->posts()->get();
+        if (count($posts)) {
+            return $posts;
+        } else {
+            return ['result' => 'no records found'];
+        }
+    } /*public function filterPostsByDate($date)
+    {
+        $posts = Category::whereDate('created_at', '=', date('Y-m-d'))
+
+            ->posts()->get();
+        if (count($posts)) {
+            return $posts;
+        } else {
+            return ['result' => 'no records found'];
+        }
+    }*/
+
+
+
+
 
 
     public function create()

@@ -151,7 +151,6 @@ class PostController extends Controller
         }
         $post = Post::where('id', $id);
         $post->update($request->all()) ;
-
         $post->save() ;
 
         return response()->json($post, 201);

@@ -34,17 +34,7 @@ class PostController extends Controller
         } else {
             return ['result' => 'no records found'];
         }
-    } /*public function filterPostsByDate($date)
-    {
-        $posts = Category::whereDate('created_at', '=', date('Y-m-d'))
-
-            ->posts()->get();
-        if (count($posts)) {
-            return $posts;
-        } else {
-            return ['result' => 'no records found'];
-        }
-    }*/
+    }
 
 
 
@@ -162,7 +152,7 @@ class PostController extends Controller
         if( $post)
             $post->delete();
         else
-            return response()->json(error);
+            return response()->json("error");
         return response()->json(null);
 
     }

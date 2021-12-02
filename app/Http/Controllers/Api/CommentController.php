@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+public  function getCommentByPostId($id)
+{
+$comment=Comment::where('post_id',$id)->get() ;
+
+return   response()->json($comment) ;
+
+}
+
+
+
     public function index()
     {
         //

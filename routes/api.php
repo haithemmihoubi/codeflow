@@ -27,7 +27,7 @@ Route::group(['prefix' => 'v1'], function () {
     ]);
     Route::get('/search/{name}', [PostController::class, 'search']);
     Route::get('/filterPostsByCategory/{categoryName}', [PostController::class, 'filterPostsByCategory']);
-
+    Route::get('/comment/{id}', [CommentController::class, 'getCommentByPostId']);
 });
 
 

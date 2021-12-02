@@ -12,6 +12,9 @@ class Category extends Model
     ];
 
     use HasFactory;
+
+    protected $guarded = [];
+
     public function posts()
 {
     return $this->hasMany(Post::class);

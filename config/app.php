@@ -12,8 +12,9 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
-    'name' => env('APP_NAME', 'Laravel'),
+    'app_name' => 'Codeflow',
+    'subtitle' => 'You can learn',
+    'name' => env('APP_NAME', 'Codeflow'),
 
     /*
     |--------------------------------------------------------------------------

@@ -21,6 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::name('admin.categories.list')->get('/admin/categories/list', [App\Http\Controllers\Admin\CategoryController::class, 'list']);
 Route::get('/testing', [App\Http\Controllers\AdminController::class, 'testing']);
 Auth::routes();

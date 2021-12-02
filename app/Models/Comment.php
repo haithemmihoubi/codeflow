@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
+    protected $fillable = [
+        "message"
+    ];
+
+
+
     use HasFactory;
     // Match  between the post table and the comment
     // Here the actual COMMENT belongs to post

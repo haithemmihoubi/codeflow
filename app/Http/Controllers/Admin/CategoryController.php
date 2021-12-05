@@ -46,12 +46,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);
+        $validatedData = $request->validate($this->validatedRules());
         $category = Category::create($validatedData);
-        return redirect()->route('admin.category.show', ['category' => $category]);
+        return redirect()->route('admin.categories.show', ['category' => $category]);
     }
 
     /**
@@ -62,7 +59,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('admin.category.show', ['category' => Category::find($category->id)]);
+        return view('admin.category.show', compact('category'));
     }
 
     /**
@@ -73,7 +70,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -85,7 +82,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate($this->validatedRules());
+        $category->update($request->all());
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully');
     }
 
     /**
@@ -96,6 +96,15 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
+    }
+
+    private function validatedRules(){
+        return [
+            'name' => 'required',
+            'description' => 'required',
+        ];
     }
 }

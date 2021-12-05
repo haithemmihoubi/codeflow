@@ -83,4 +83,13 @@ class UserController extends Controller
     {
         //
     }
+
+    public function promoteToAdmin(User $user){
+        $user->role = "admin";
+        $user->updated_at = now();
+        $user->update();
+        $users = User::all();
+        
+        return redirect()->route('admin.users.index', compact('users'))->with('success', 'User promoted successfully to admin');
+    }
 }

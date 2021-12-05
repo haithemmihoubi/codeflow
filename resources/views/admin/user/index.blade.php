@@ -1,5 +1,13 @@
 @extends('admin.index')
 @section('main')
+@if ($message = Session::get('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
+        <strong>{{ $message }}</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
@@ -22,15 +30,8 @@
                 <td>{{$user->email}}</td>
                 <td>{{$user->role}}</td>
                 <td>
-                    <a href="{{ route('admin.users.show', ['user' => $user->id]);}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                    <form action="{{ url('users/'.$user->id) }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
-            
-                        <button type="submit" class="btn btn-secondary">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </form>
+                    <a href="{{ route('admin.users.show', ['user' => $user->id]);}}" class="btn btn-outline-secondary"><i class="fas fa-eye"></i></a>
+                    <a href="{{route('admin.users.promoteToAdmin', ['user' => $user->id])}}" class="btn btn-outline-success"><i class="fas fa-user-shield"></i> Promote to admin</a>
                 </td>
             </tr>    
             @endforeach

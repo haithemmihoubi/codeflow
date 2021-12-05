@@ -38,16 +38,9 @@ class PostController extends Controller
     public function store(Request $request)
     {
         
-        $validatedData = $request->validate([
-            'title' => 'required',
-            "body" => 'required',
-            //'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            //"url"=>'nullable|url',
-            //"pdf"=>"nullable|mimes:svg,doc,docx,odt,pdf,tex,txt,wpd,tiff,tif,csv,psd,key,odp,pps,ppt,pptx,ods,xls,xlsm,xlsx",
-            "coupon"=>"nullable",
-            "category_id"=>"required"
-        ]);
+        $validatedData = $request->validate($this->validatedRules());
 
+        //Storing image
         if($request->hasFile('image'))
         {
             $image=$request->file("image") ;
@@ -58,6 +51,7 @@ class PostController extends Controller
         }else{
             return  "Probably invalid Image format";
         }
+
         //Storing PDF
         if($request->hasFile('pdf'))
         {
@@ -68,7 +62,8 @@ class PostController extends Controller
         }else{
             return "Probably invalid PDF format";
         }
-        $post = Post::create([
+
+        Post::create([
             'title' =>  $request->title,
             "body" => $request->body,
             'image' => $image_full_name,
@@ -77,15 +72,8 @@ class PostController extends Controller
             "coupon"=> $request->coupon,
             "category_id"=> $request->category_id
         ]);
-        /*
-        $customer = new Customer();
-        $customer->firstname = $request->firstname;
-        $customer->lastname = $request->lastname;
-        $customer->phone = $request->phone;
-        $customer->email = $request->email;
-        $customer->address = $request->address;
-        */
-        return redirect()->route('admin.posts.show', ['post' => $post]);
+
+        return redirect()->route('admin.posts.index')->with('sucess', 'Post created successfully');
     }
 
     /**
@@ -96,7 +84,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.post.show', ['post' => Post::find($post->id)]);
+        return view('admin.post.show', compact('post'));  
     }
 
     /**
@@ -107,7 +95,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -119,7 +107,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate($this->validatedRules());
+        $post->update($request->all());
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
 
     /**
@@ -130,6 +121,35 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully');
+    }
+
+    private function validatedRules(){
+        return [
+            'title' => 'required',
+            "body" => 'required',
+            //'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            //"url"=>'nullable|url',
+            //"pdf"=>"nullable|mimes:svg,doc,docx,odt,pdf,tex,txt,wpd,tiff,tif,csv,psd,key,odp,pps,ppt,pptx,ods,xls,xlsm,xlsx",
+            "coupon"=>"nullable",
+            "category_id"=>"required"
+        ];
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function validatePost(Post $post){
+        $post->validated = true;
+        $post->updated_at = now();
+        $post->update();
+        $posts = Post::all();
+        return view('admin.post.index', compact('posts'))->with('success', 'Post '.$post->title.' approved');
     }
 }

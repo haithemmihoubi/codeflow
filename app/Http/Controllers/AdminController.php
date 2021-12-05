@@ -86,4 +86,7 @@ class AdminController extends Controller
     public function testing(){
         return view('shared.testing');
     }
+    public function codeflow(){
+        return view('codeflow');
+    }
 }
